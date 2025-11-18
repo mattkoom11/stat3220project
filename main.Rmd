@@ -41,10 +41,8 @@ count_award_wins <- function(award_string) {
 # --- Step 2: Run everything inside ONE mutate() to maintain order ---
 nba_merged <- nba_merged %>%
   mutate(
-    # first compute numeric wins
     n_awards_won = vapply(Awards, count_award_wins, integer(1)),
     
-    # then create the factor
     awards_factor = case_when(
       n_awards_won == 0 ~ "0 awards won",
       n_awards_won == 1 ~ "1 award won",
@@ -55,7 +53,7 @@ nba_merged <- nba_merged %>%
       levels = c("0 awards won", "1 award won", "more than 1 award won")
     ),
     
-    # then create dummy variables
+    # Only two dummy variables (k - 1)
     awards_1     = ifelse(awards_factor == "1 award won", 1, 0),
     awards_2plus = ifelse(awards_factor == "more than 1 award won", 1, 0)
   )
