@@ -56,7 +56,6 @@ nba_merged <- nba_merged %>%
     ),
     
     # then create dummy variables
-    awards_0     = ifelse(awards_factor == "0 awards won", 1, 0),
     awards_1     = ifelse(awards_factor == "1 award won", 1, 0),
     awards_2plus = ifelse(awards_factor == "more than 1 award won", 1, 0)
   )
