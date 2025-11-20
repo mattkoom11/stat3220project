@@ -24,7 +24,7 @@ head(df)
 Getting rid of unnecessary columns (only need to run once, saves the updated csv)
 ```{r}
 df <- df %>%
-  select(-Awards)
+  select(-Awards, -GS, -FGA, -n_awards_won, -awards_0, -Age)
 write.csv(df, "cleaned_data_updated.csv", row.names = FALSE)
 ```
 Checking for correct data
