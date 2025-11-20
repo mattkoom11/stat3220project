@@ -17,7 +17,8 @@ Research Questions draft
 
 
 ```{r}
-nba_merged
+nba <- nba_merged
+nba
 ```
 
 
@@ -41,8 +42,8 @@ count_award_wins <- function(award_string) {
   hyphen_wins + nba_wins
 }
 
-# --- Step 2: Run everything inside ONE mutate() to maintain order ---
-nba_merged <- nba_merged %>%
+# --- Step 2: Run everything inside ONE mutate() ---
+nba <- nba %>%
   mutate(
     n_awards_won = vapply(Awards, count_award_wins, integer(1)),
     
@@ -61,16 +62,30 @@ nba_merged <- nba_merged %>%
     awards_2plus = ifelse(awards_factor == "more than 1 award won", 1, 0)
   )
 
-nba_merged
+nba
+
 ```
+
+Adding "Stocks (steals + blocks)" column
+```{r}
+nba <- nba %>%
+  mutate(stocks = STL + BLK) %>%
+  relocate(stocks, .after = BLK)
+nba
+```
+
+
 Converting updated table to downloadable Excel
 ```{r, comment=NA}
 install.packages("openxlsx")
 library(openxlsx)
 
-write.xlsx(nba_merged, "updated_nba_merged.xlsx")
+write.xlsx(nba, "updated_nba_merged.xlsx")
 
 ```
 ```{r}
+```
 
+
+```{r}
 ```
