@@ -1,4 +1,4 @@
-Player,Age,Team,G,GS,MP,FGA,FG%,FTA,TRB,AST,stocks,PTS,Value_Billions,Awards,n_awards_won,awards_0,awards_1,awards_2plus,avg_salary_millions,Age_22-26,Age_27-31,Age_32-34,Age_35+,Pos_PF,Pos_PG,Pos_SF,Pos_SG
+Player,Age,Team,G,GS,MP,FGA,FG_pct,FTA,TRB,AST,stocks,PTS,Value_Billions,Awards,n_awards_won,awards_0,awards_1,awards_2plus,avg_salary_millions,Age_22_26,Age_27_31,Age_32_34,Age_35_plus,Pos_PF,Pos_PG,Pos_SF,Pos_SG
 Shai Gilgeous-Alexander,26.0,OKC,76.0,76.0,34.2,21.8,0.519,8.8,5.0,6.4,2.7,32.7,4.35,MVP-1DPOY-10CPOY-8ASNBA1,2,0,0,1,55.3591,1,0,0,0,0,1,0,0
 Giannis Antetokounmpo,30.0,MIL,67.0,67.0,34.2,19.7,0.601,10.6,11.9,6.5,2.1,30.4,4.3,MVP-3DPOY-8ASNBA1,1,0,1,0,58.4566,0,1,0,0,1,0,0,0
 Nikola Jokić,29.0,DEN,70.0,70.0,36.7,19.5,0.576,6.4,12.7,10.2,2.4,29.6,4.6,MVP-2CPOY-2ASNBA1,1,0,1,0,59.0331,0,1,0,0,0,0,0,0

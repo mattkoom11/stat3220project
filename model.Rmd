@@ -10,8 +10,39 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r, echo=FALSE, comment=NA}
 # packages
+library(ggplot2)
+library(dplyr)
+library(car)
+library(reshape2)
 ```
 
 ```{r}
+df <- read.csv("cleaned_data.csv")
+head(df)
+```
 
+```{r}
+ggplot(df, aes(x = avg_salary_millions)) + geom_histogram(binwidth = 1, fill = "blue", color = "black") + labs(title = "Distribution of Average Salaries (Millions)", x = "Average Salary (Millions)", y = "Count") + theme_minimal()
+```
+
+```{r}
+numeric_cols <- df %>%
+  select(-avg_salary_millions)
+
+numeric_cols <- numeric_cols %>% select(where(is.numeric))
+
+cor_matrix <- round(cor(numeric_cols, use = "complete.obs"), 2)
+
+cor_matrix
+```
+
+```{r}
+cor_melt <- melt(cor_matrix)
+ggplot(cor_melt, aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white",
+                       midpoint = 0, limit = c(-1,1), space = "Lab") +
+  theme_minimal() +
+  labs(title = "Correlation Heatmap", x = "", y = "") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
