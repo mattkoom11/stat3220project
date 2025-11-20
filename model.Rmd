@@ -42,6 +42,13 @@ df$Age <- apply(df[, c("Age_22_26", "Age_27_31", "Age_32_34", "Age_35_plus")], 1
 
 df$Age <- factor(df$Age)
 
+df$Awards <- apply(df[, c("awards_1", "awards_2plus")], 1, function(row) {
+  level <- which(row == 1)
+  if (length(level) == 0) return("0 awards")   # if neither dummy is 1
+  return(c("1 award", "2+ awards")[level])
+})
+
+df$Awards <- factor(df$Awards)
 head(df)
 ```
 
