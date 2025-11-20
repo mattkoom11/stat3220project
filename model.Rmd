@@ -70,3 +70,6 @@ ggplot(cor_melt, aes(Var1, Var2, fill = value)) +
   labs(title = "Correlation Heatmap", x = "", y = "") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+```{r}
+tapply(df$avg_salary_millions,df$Age,summary)
+```
