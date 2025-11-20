@@ -12,6 +12,9 @@ knitr::opts_chunk$set(echo = TRUE)
 # push test
 ```
 
+Research Questions draft
+1. 
+
 
 ```{r}
 nba_merged
@@ -60,6 +63,14 @@ nba_merged <- nba_merged %>%
 
 nba_merged
 ```
-
+Converting updated table to downloadable Excel
 ```{r, comment=NA}
+install.packages("openxlsx")
+library(openxlsx)
+
+write.xlsx(nba_merged, "updated_nba_merged.xlsx")
+
+```
+```{r}
+
 ```
