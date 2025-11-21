@@ -51,10 +51,58 @@ df$Awards <- apply(df[, c("awards_1", "awards_2plus")], 1, function(row) {
 df$Awards <- factor(df$Awards)
 head(df)
 ```
-
+1) Histogram of response variable (required for MLR)
 ```{r}
 ggplot(df, aes(x = avg_salary_millions)) + geom_histogram(binwidth = 1, fill = "blue", color = "black") + labs(title = "Distribution of Average Salaries (Millions)", x = "Average Salary (Millions)", y = "Count") + theme_minimal()
 ```
+2) Scatterplot: Salary vs Points Per Game (Research Question 1)
+```{r}
+p2_salary_vs_pts <- ggplot(df, aes(x = PTS, y = avg_salary_millions
+)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Salary vs Points Per Game",
+    x = "Points per game",
+    y = "Salary (millions)"
+  ) +
+  theme_minimal()
+
+p2_salary_vs_pts
+
+```
+
+3) Scatterplot: Salary vs Stocks (Research Question 2)
+```{r}
+p3_salary_vs_stocks <- ggplot(df, aes(x = stocks, y = avg_salary_millions)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(
+    title = "Salary vs Defensive Stocks (Steals + Blocks)",
+    x = "Stocks (steals + blocks per game or total)",
+    y = "Salary (millions)"
+  ) +
+  theme_minimal()
+
+p3_salary_vs_stocks
+
+```
+
+4) Boxplot: Salary by Awards Category (Research Question 3)
+```{r}
+p4_salary_by_awards <- ggplot(df, aes(x = Awards, y = avg_salary_millions)) +
+  geom_boxplot(fill = "grey85") +
+  labs(
+    title = "NBA Salary by Awards Category",
+    x = "Awards Category",
+    y = "Salary (millions)"
+  ) +
+  theme_minimal()
+
+p4_salary_by_awards
+
+```
+
 
 ```{r}
 numeric_cols <- df %>%
