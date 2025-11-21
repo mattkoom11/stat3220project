@@ -1,6 +1,6 @@
 ---
-title: "Insert heading" 
-author: "Group Name"
+title: "NBA Salaries: How Much is that Buzzer Beater Worth?" 
+author: "Eddie and Co."
 fontsize: 12pt
 geometry: margin=1in
 urlcolor: black
@@ -26,13 +26,14 @@ library(reshape2)
 
 df <- read.csv("cleaned_data.csv")
 head(df)
+
+#\includegraphics{/Users/kristavaranyak/Downloads/GOLDyulo.jpg}
+#above was causing problems with knitting, originally line 38
 ```
 
 
 
 \begin{center}
-
-\includegraphics{/Users/kristavaranyak/Downloads/GOLDyulo.jpg}
 
 \end{center}
 
