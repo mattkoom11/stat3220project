@@ -18,6 +18,14 @@ knitr::opts_chunk$set(echo = TRUE, highlight=FALSE, comment=NA, warnings=FALSE,m
 ## Use this chunk for reading in packages.
 ## Use this chunk for reading in the data, combining the data, and any other major data cleaning that is not relevant to show.
 ## Remove the ## before all code.
+
+library(ggplot2)
+library(dplyr)
+library(car)
+library(reshape2)
+
+df <- read.csv("cleaned_data.csv")
+head(df)
 ```
 
 

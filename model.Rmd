@@ -25,7 +25,7 @@ Getting rid of unnecessary columns (only need to run once, saves the updated csv
 ```{r}
 df <- df %>%
   select(-Awards, -GS, -FGA, -n_awards_won, -awards_0, -Age)
-write.csv(df, "cleaned_data_updated.csv", row.names = FALSE)
+write.csv(df, "cleaned_data.csv", row.names = FALSE)
 ```
 Checking for correct data
 ```{r}
@@ -49,6 +49,7 @@ df$Awards <- apply(df[, c("awards_1", "awards_2plus")], 1, function(row) {
 })
 
 df$Awards <- factor(df$Awards)
+write.csv(df, "cleaned_data.csv", row.names = FALSE)
 head(df)
 ```
 1) Histogram of response variable (required for MLR)
