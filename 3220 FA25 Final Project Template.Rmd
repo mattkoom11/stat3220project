@@ -149,6 +149,42 @@ All selected predictors: PTS, stocks, and Awards, show meaningful variation and 
 
 ```
 
+Assessing Multicollinearity
+
+We will begin our analysis stage by looking for multicollinearity between predictors. In our exploratory data analysis, we identified that there may be high multicollinearity between Pts and other predictors related to offensive statistics, like FTA and MP. After examining our correlation heatmap from EDA, we will need to further examine pairwise relationships and VIFs to identify potential hazards in our model. 
+
+Our first step will be to acquire numerical information regarding pairwise relationships. That is, identify the correlation between our explanatory variables. We will then analyze multicollinearity through VIF analysis. If individual VIFs are below the threshold of 10, and the average VIF is below 3, then multicollinearity is not a concern and we will move onto model building. However, in the case that multicollinearity is a concern, we will engage in variable screening to identify which predictors may not be necessarily impactful in this model. Using Stepwise Regression, we will identify a set of predictors that may be adequate at predicting Salary. With our new subset, we can reassess multicollinearity and decide which predictors to move forward with.
+
+Building the Model
+
+We will begin building our model by estimating our model parameters, starting with only our quantitative predictors and a quantitative interaction term that we believe may contribute to the model. Our initial model using quantitative predictors is as follows: 
+
+${Salary = Beta_1(G) + Beta_2(MP) + Beta_3(PTS) + Beta_4(FG_pct) + Beta_5(FTA) + Beta_6(TRB) + Beta_7(AST) + Beta_8(Stocks) + Beta_9(Value)} + Beta_{10}(PTS*FTA)$
+
+After estimating this Multiple Linear Regression model using the lm() function, we will first evaluate its utility using a Global F-Test. Assuming the model is adequate at predicting Salary, we will move forward by testing our most important predictors using individual T-tests. The first T-test we will perform is for our interaction, PTS*FTA. If this interaction is significant at a predetermined alpha (.05), we will keep it in the model and continue with our T-tests. Our other variables of interest, namely PTS and Stocks, will then be tested to ensure they are significant at predicting salary. If any variables are largely insignificant and we believe they may not be a strong determinator of predicted salary, we will remove them from the model and return to a Global F-Test with the updated model.
+
+Following our evaluation of the model with quantitative predictors, we will add in our qualitative predictors, and a Qualitative x Qualitative interaction term we believe may contribute to the model: Awards*Age
+
+After adding our qualitative variables into the model, we will perform a Global F-Test to ensure the model is adequate at predicting Salary. We will then move into the necessary tests to evaluate individual predictors and interactions. We will begin by testing the interaction between Awards and Age with a T-test. If the interaction is significant, we will keep it in the model and continue with our analysis. We will then test our qualitative variable of interest, awards, using a Nested F-Test. If awards are significant at predicting Salary, we will keep it in the model and move forward.
+
+We will not be testing any Quantitative X Qualitative Interactions.
+
+After we have our final model achieved through testing, we will once again evaluate the utility of the model through a Global F-Test to ensure the model is adequate at predicting Salary.
+
+Assessing the Model (Including Cross Validation)
+
+Once we’ve finalized our model through variable testing, we will conduct a holistic assessment of our model for a better understanding of its capabilities and limitations. We will evaluate metrics such as R2, Adjusted R2, Root-MSE to evaluate our model. Separately, we will interpret confidence and prediction intervals and ensure our model performs on a practical level.
+
+In addition to the traditional assessment metrics, we will be incorporating Cross Validation into our final project. Cross validation is a machine learning technique used to assess the performance and accuracy of a model. Performing Cross validation allows the model builder to see whether their model overfits or underfits by training the majority of a data set, and using the remaining data for testing. The trained set is then used to estimate a linear regression model evaluated on metrics such as Root-MSE and R2. More specifically, we will use the Validation Set Approach in R, which randomly splits 80% of the dataset into training, and 20% into testing. By performing Cross Validation we will have a strong idea of whether our model is prepared to be used on new data, or if further adjustments must be made.
+
+Checking Model Assumptions
+
+Our last analysis step will be checking the model assumptions through residual analysis. The four assumptions we’ll be checking are the Lack of Fit, Constant Variance, Normality, and Independence. Through examination of residual plots, residual vs. fitted plots, QQ plots, and histograms of the residuals we’ll be able to tell whether any of these assumptions have been violated.
+
+We will then identify outliers and influential observations through Cooks Distance, Leverage, Studentized Residuals, and Deleted Studentized Residuals. If there are any influential observations that may be jeopardizing our model, we will consider removing them from the dataset.
+
+
+
 ## Results
 
 ## Conclusions
