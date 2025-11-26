@@ -216,7 +216,7 @@ We will then identify outliers and influential observations through Cooks Distan
 
 ```{r, echo=FALSE}
 # Use head() function to output first several rows
-
+head(df)
 ```
 
 \newpage
