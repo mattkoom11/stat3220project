@@ -158,9 +158,13 @@ Building the Model
 
 We will begin building our model by estimating our model parameters, starting with only our quantitative predictors and a quantitative interaction term that we believe may contribute to the model. Our initial model using quantitative predictors is as follows: 
 
-${Salary = Beta_1(G) + Beta_2(MP) + Beta_3(PTS) + Beta_4(FG_pct) + Beta_5(FTA) \\\\
-+ Beta_6(TRB) + Beta_7(AST) + Beta_8(Stocks) + Beta_9(Value)}  \\\\
-+ Beta_{10}(PTS*FTA)$
+\[
+\begin{aligned}
+\text{Salary} &= \beta_1 G + \beta_2 MP + \beta_3 PTS + \beta_4 FG\_\% + \beta_5 FTA \\
+              &\quad + \beta_6 TRB + \beta_7 AST + \beta_8 \text{Stocks} + \beta_9 \text{Value} \\
+              &\quad + \beta_{10} (PTS \times FTA)
+\end{aligned}
+\]
 
 After estimating this Multiple Linear Regression model using the lm() function, we will first evaluate its utility using a Global F-Test. Assuming the model is adequate at predicting Salary, we will move forward by testing our most important predictors using individual T-tests. The first T-test we will perform is for our interaction, PTS*FTA. If this interaction is significant at a predetermined alpha (.05), we will keep it in the model and continue with our T-tests. Our other variables of interest, namely PTS and Stocks, will then be tested to ensure they are significant at predicting salary. If any variables are largely insignificant and we believe they may not be a strong determinator of predicted salary, we will remove them from the model and return to a Global F-Test with the updated model.
 
