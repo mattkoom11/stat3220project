@@ -41,23 +41,23 @@ head(df)
 \newpage
 
 ## Introduction
-Professional sports salaries, especially in the NBA, are a topic of continuous public debate because they sit at the intersection of performance, marketability, and organizational strategy. Understanding what truly drives a player’s salary is valuable not only to analysts and researchers, but also to teams making contract decisions and fans trying to understand the economics behind the sport. Prior studies suggest that both quantitative performance metrics and qualitative recognition, such as awards or team roles, significantly influence earnings. Motivated by this, our research explores the statistical relationships between player attributes and their salaries.
+Professional sports salaries, particularly in the NBA, continue to spark discussion because they highlight the intersection of performance, marketability, and team strategy. Understanding how a player’s on-court production translates to salary is not only valuable for analysts and researchers, but also for front offices making contract decisions and fans seeking to understand the economics of the league. Prior research suggests that player compensation is strongly influenced by both measurable performance statistics and more subjective forms of recognition such as awards or team honors (Berri & Schmidt, 2006; Stiroh, 2007; Simmons & Berri, 2011).
+
+Motivated by these findings, our project examines the statistical relationships between NBA player characteristics and their salaries during the 2024-2025 season. We selected three primary variables—points per game, defensive stocks (steals + blocks), and award recognition—because each represents a different dimension of player value. Scoring is one of the most visible and heavily rewarded skills in basketball (Stiroh, 2007). Defensive performance, while often overlooked publicly, provides meaningful team impact and has shown measurable influence on team success (Simmons & Berri, 2011). Awards represent league-wide acknowledgment of excellence and can shape a player’s reputation and contract negotiations (Berri & Schmidt, 2006).
 
 Our general research question is:
-What factors best explain variation in NBA player salary?
 
-From this, we developed three specific research questions, each tied to a chosen predictor and one response variable. The response variable in all three questions is NBA player salary.
+What factors best explain variation in NBA player salary during the 2024-2025 season?
 
-Quantitative Predictor:
+To address this, we developed three specific research questions:
+
 Do NBA players who score more points (PTS) earn higher salaries on average?
 
-Quantitative Predictor:
-Is there a significant relationship between a player’s total defensive contributions (steals + blocks, “stocks”) and their salary?
+Is there a meaningful positive relationship between a player’s defensive activity (“stocks”) and their salary?
 
-Qualitative Predictor:
-Do players who have won at least one major NBA award (e.g., MVP, All-NBA Team selections) earn higher salaries than those who have not?
+Do players who have earned at least one major NBA award receive higher salaries compared to players with no awards?
 
-Overall, this project is relevant because salary determination is central to team strategy, player valuation, and league-wide competitive balance. By analyzing both quantitative and qualitative predictors, we aim to identify which factors hold the strongest statistical relationship with NBA salary and how these insights compare to findings in the sports economics literature.
+Together, these questions reflect distinct aspects of performance and recognition. By analyzing these variables, we aim to identify which factors are most strongly associated with salary and how our findings compare to patterns documented in the sports-economics literature.
 
 ## Data Summary
 ### Data Sources
@@ -66,7 +66,9 @@ The data in this project were compiled from publicly available and reputable bas
 To prepare the data for analysis, we standardized naming conventions across the two sources and combined the datasets so that each player occupied a single row with salary, performance, and awards information. Awards were originally stored in long strings listing placements, team selections, and voting outcomes, so we simplified these into a three-level qualitative variable representing the general number of accolades received. Age was also simplified into qualitative brackets to match our research questions.
 
 Overall, the combined dataset contains a rich mixture of performance and recognition indicators, allowing us to meaningfully evaluate how both quantitative and qualitative factors relate to NBA salary. While subjective elements such as awards voting and contract timing may influence individual observations, the breadth and reliability of the sources allow us to confidently proceed with statistical analysis.
+
 ### Exploratory Data Analysis
+
 ```{r, echo=FALSE}
 ## Use this code  to include the relevant plots from EDA
 ## This should NOT be a dump of all of your plots and outputs.
@@ -112,28 +114,49 @@ p4_salary_by_awards <- ggplot(df, aes(x = Awards, y = avg_salary_millions)) +
 
 p4_salary_by_awards
 
+p6_salary_by_age <- ggplot(df, aes(x = Age, y = avg_salary_millions)) +
+  geom_boxplot(fill = "lightgray") +
+  labs(
+    title = "NBA Salary by Age Group",
+    x = "Age Group",
+    y = "Salary (millions)"
+  ) +
+  theme_minimal()
+
+p6_salary_by_age
+
+
 # This partition is optional, but can be useful for a simple way to resize your plots
 par(mfrow=c(2,3),pin=c(1,1),mar=c(7.1,4.1,3,1))
+
 ```
 
 ### EDA Summary
-To understand how performance and recognition relate to NBA player salaries, we began by examining the distribution of our response variable, average salary (in millions of dollars). The histogram shows that salaries are heavily right-skewed, with the majority of players earning under \$10 million per year. Numerically, the median salary in our sample is approximately \$5.4 million, while the mean salary is higher at $9.0 million, reflecting a small group of extremely high-earning players who pull the average upward. This skewed structure is expected in the NBA, where superstars sign “max contracts” much larger than the salaries of role players. Importantly, salary is a continuous quantitative variable, making it appropriate as a response variable for multiple linear regression. Although the data are skewed, the linear model can still be interpreted meaningfully; however, if model assumptions are violated later, we may consider transformations such as logging salary.
+To explore how performance and recognition relate to NBA salaries, we began by examining the distribution of our response variable, average salary in millions of dollars. The histogram shows a heavily right-skewed pattern, with most players earning under \$10 million and a small number of superstars earning between \$40–\$60 million. Numerically, the median salary is approximately $5.4 million, while the mean is \$9.0 million, reflecting the effect of these extremely high-earnings players on the average. Despite the skewness, salary is a continuous variable with meaningful spread, making it suitable for multiple linear regression. If residual diagnostics later indicate violations of normality assumptions, we may consider transformations such as the logarithm of salary.
 
-Relationship Between Scoring and Salary
-A scatterplot of salary versus points per game (PTS) shows a clear positive trend: players who score more tend to earn more. The fitted regression line rises steeply, suggesting scoring is strongly associated with higher pay. Numerically, high scorers (20+ PPG) earn an average of \$35–\$45 million, while low scorers (under 5 PPG) typically earn below $5 million. This relationship aligns with economic expectations. Scoring is perhaps the most visible and rewarded skill in basketball, and our EDA indicates it is likely to be a significant predictor in the regression model.
+We next investigated how scoring performance relates to salary. The scatterplot of salary vs points per game (PTS) displays a strong positive trend, supported by a steep regression line. Players scoring 20 or more points per game typically earn \$35–\$45 million, while those under 5 points often earn below $5 million. This aligns with economic expectations, as scoring is a highly valued offensive skill in the modern NBA.
 
-Relationship Between Defensive Stocks and Salary
-We also explored the connection between salary and defensive activity, measured by “stocks” (steals + blocks). The scatterplot shows a weaker but still positive trend. On average, players who average 2 or more stocks tend to earn \$20–\$40 million, while those with fewer than 1 stock per game cluster near lower salaries. The numerical spread suggests that although defense contributes to player value, it may not influence salaries as strongly as scoring, which is consistent with league-wide patterns where offensive stars typically command the highest contracts.
+Defensive performance, measured through stocks (steals + blocks), also shows a positive association with salary, although the trend is more moderate. Players averaging two or more stocks tend to cluster around \$20–\$40 million, whereas those producing under one stock per game tend to earn much less. This suggests that defensive impact contributes to player valuation, but not as strongly as scoring.
 
-Salary Differences Based on Awards
-To evaluate whether league recognition affects earnings, we created a categorical variable Awards with three levels: “0 awards,” “1 award,” and “2+ awards.” The boxplot shows clear separation among these groups. Players with 0 awards have a median salary of about \$8 million, while players with 1 award have a median salary of roughly \$50 million. Those with 2+ awards earn even more on average, with a median close to \$55 million. These numerical patterns strongly suggest that award recognition, representing public and league-wide acknowledgment of excellence, is associated with substantially higher pay.
+We also examined how award recognition relates to salary. The boxplot comparing players with “0 awards,” “1 award,” and “2+ awards” shows clear separation between the three groups. Players with no awards have a median salary of about \$8 million, while those with one award have a median closer to \$50 million. Players with two or more awards earn slightly more, with a median of roughly \$55 million. These differences imply that league-wide recognition corresponds with significantly higher pay and may capture aspects of player reputation that go beyond raw statistics.
 
-The broad salary range within each group also highlights the importance of including additional variables, since recognition alone does not explain all variation. Still, the clear upward shift in salary distributions across the award categories implies that awards are likely to be an important qualitative predictor.
+Finally, to understand salary variation across career stages, we examined a boxplot of salary by age group. Players in the 27–31 age range earn the highest median salaries, reflecting the common peak-performance window in NBA careers. Younger players (22–26) and older veterans (35+) tend to earn less on average, which aligns with typical player development and decline patterns. This demographic plot adds context for interpreting performance and award variables within the broader structure of player career arcs.
 
-Suitability of Variables and Consideration of Multicollinearity
-Before finalizing our regression model, we assessed potential multicollinearity among predictors. Scoring (PTS) and some other offensive statistics (not included in our model) can be highly correlated, which may inflate standard errors if included simultaneously. However, in our chosen model, stocks and awards do not appear strongly correlated with scoring, meaning multicollinearity should be minimal. Variance Inflation Factor (VIF) checks later in the analysis will confirm this formally.
+Before moving to regression modeling, we considered the possibility of multicollinearity among predictors. While scoring (PTS) may correlate with other offensive variables, our selected predictors—PTS, stocks, Awards, and Age—do not appear strongly correlated with one another based on preliminary inspection. This reduces concerns about inflated standard errors, which we will confirm formally using Variance Inflation Factors (VIFs) in the modeling stage.
 
-All selected predictors: PTS, stocks, and Awards, show meaningful variation and substantive relationships with salary. The EDA supports the idea that each variable ties directly to one of our research questions and is suitable for inclusion in a multiple linear regression model.
+Overall, the EDA reveals consistent and meaningful trends:
+
+Salary is right-skewed with a large upper tail of superstar contracts.
+
+Scoring shows a strong positive relationship with salary.
+
+Defensive stocks have a moderate positive association with salary.
+
+Award recognition corresponds with substantial salary increases.
+
+Salary peaks in mid-career age groups, aligning with performance arcs.
+
+These patterns justify inclusion of the selected predictors and provide a clear foundation for developing the multiple linear regression model.
 
 ```{r, echo=FALSE, warning=FALSE,results=FALSE}
 ## Use this code chunk can be used to execute any functions or summaries 
