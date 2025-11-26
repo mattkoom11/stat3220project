@@ -192,11 +192,18 @@ We will then identify outliers and influential observations through Cooks Distan
 \newpage
 
 ## Appendix A: Data Dictionary
-
 | Variable Name | Abbreviated Name | Description |
 |:-------------:|:----------------:|:-----------:|
-|Variable 1|Var1|This is the first variable.|
-|Variable 2|Var2|This is the second variable.|
+|Games|G|This represents the games played by each respective player.|
+|Minutes Played|MP|This represents the minutes played by each respective player in the overall season.|
+|Points Scored|PTS|This represents the total points scored by each respective player.|
+|Field Goal Percentage|FG_PCT|This represents the percentage of field goals scored by each respective player.|
+|Free Throw Attempts|FTA|This represents the free throw attempts made by each respective player.|
+|Total Rebounds|TRB|This represents the total rebounds made by each respective player.|
+|Total Assists|AST|This represents the total assits by each respective player.|
+|Steals and Blocks Combined|Stocks|This represents the steals and  blocks achieved by each respective player.|
+|Franchise Value|Value|This represents the franchise value of the team of each respective player.|
+
 
 \newpage
 
