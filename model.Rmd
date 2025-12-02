@@ -25,7 +25,7 @@ Getting rid of unnecessary columns (only need to run once, saves the updated csv
 ```{r}
 df <- df %>%
   select(-Awards, -GS, -FGA, -n_awards_won, -awards_0, -Age)
-write.csv(df, "cleaned_data.csv", row.names = FALSE)
+#write.csv(df, "main.csv", row.names = FALSE)
 ```
 Checking for correct data
 ```{r}
@@ -49,8 +49,11 @@ df$Awards <- apply(df[, c("awards_1", "awards_2plus")], 1, function(row) {
 })
 
 df$Awards <- factor(df$Awards)
-write.csv(df, "cleaned_data.csv", row.names = FALSE)
-head(df)
+write.csv(df, "clean.csv", row.names = FALSE)
+#head(df)
+
+df2 <- df %>% mutate(log_salary = log(avg_salary_millions + 1))
+head(df2)
 ```
 1) Histogram of response variable (required for MLR)
 ```{r}
@@ -86,7 +89,6 @@ p3_salary_vs_stocks <- ggplot(df, aes(x = stocks, y = avg_salary_millions)) +
   theme_minimal()
 
 p3_salary_vs_stocks
-
 ```
 
 4) Boxplot: Salary by Awards Category (Research Question 3)
@@ -126,6 +128,11 @@ ggplot(cor_melt, aes(Var1, Var2, fill = value)) +
   labs(title = "Correlation Heatmap", x = "", y = "") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
 ```{r}
 tapply(df$avg_salary_millions,df$Age,summary)
+```
+
+```{r}
+ggplot(df2, aes(x = log_salary)) + geom_histogram(binwidth = 1, fill = "blue", color = "black") + labs(title = "Distribution of Average Salaries (Millions)", x = "Average Salary (Millions)", y = "Count") + theme_minimal()
 ```

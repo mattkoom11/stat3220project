@@ -1,0 +1,59 @@
+---
+title: "analysis.rmd"
+output: pdf_document
+date: "2025-12-02"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, echo=FALSE, comment=NA}
+# packages
+library(ggplot2)
+library(dplyr)
+library(car)
+library(reshape2)
+library(olsrr)
+```
+
+```{r}
+df <- read.csv("clean.csv")
+head(df)
+```
+
+# Initial Model Creation
+
+```{r}
+initial_model <- lm(avg_salary_millions ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions + (PTS * FTA), data = df)
+summary(initial_model)
+```
+# VIF Analysis
+```{r}
+vif_values <- vif(initial_model)
+print(vif_values)
+
+# high vifs detected, remove
+vif_less <- lm(avg_salary_millions ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions, data = df)
+print(vif(vif_less))
+```
+# Stepwise
+```{r}
+ols_step_both_p(vif_less,p_ent=0.15,p_rem=0.15,details=T)
+```
+
+# T-Test Quant Only
+```{r}
+summary(vif_less)
+```
+
+# New Model as a Result of Test
+```{r}
+quant <- lm(avg_salary_millions ~ MP + PTS + TRB + AST, data = df)
+summary(quant)
+```
+
+# Adding Qualitative Predictors
+```{r}
+
+```
