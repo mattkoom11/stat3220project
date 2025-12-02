@@ -18,7 +18,7 @@ library(olsrr)
 ```
 
 ```{r}
-df <- read.csv("clean.csv")
+df <- read.csv("main.csv")
 head(df)
 ```
 
@@ -55,5 +55,24 @@ summary(quant)
 
 # Adding Qualitative Predictors
 ```{r}
+quant_and_qual <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
+summary(quant_and_qual)
+```
 
+# ANOVA Test for reduced model (Awards)
+```{r}
+reduced_awards <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
+anova(reduced_awards, quant_and_qual)
+```
+
+# ANOVA Test for reduced model (Age)
+```{r}
+reduced_age <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
+anova(reduced_age, quant_and_qual)
+```
+
+# ANOVA Test for reduced model (Pos)
+```{r}
+reduced_pos <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus, data = df)
+anova(reduced_pos, quant_and_qual)
 ```
