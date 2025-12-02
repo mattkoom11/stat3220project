@@ -109,3 +109,9 @@ influencePlot(quant_and_qual,fill=F)
 # Deleted Studentized Residuals vs Predicted values
 ols_plot_resid_stud_fit(quant_and_qual)
 ```
+
+# remove obs 86 and 154
+```{r}
+
+
+```
