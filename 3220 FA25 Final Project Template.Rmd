@@ -192,9 +192,132 @@ Our last analysis step will be checking the model assumptions through residual a
 
 We will then identify outliers and influential observations through Cooks Distance, Leverage, Studentized Residuals, and Deleted Studentized Residuals. If there are any influential observations that may be jeopardizing our model, we will consider removing them from the dataset.
 
-
-
 ## Results
+
+1. Required Analysis Steps
+
+1.1 Initial Model Building
+
+We began by fitting a full multiple linear regression model using all quantitative predictors—minutes played (MP), points (PTS), field goal percentage (FG_pct), free-throw attempts (FTA), rebounds (TRB), assists (AST), defensive stocks, team value, and the interaction term between PTS and FTA.
+The initial model explained approximately 71.9% of salary variation (adj. R² = 0.711), and identified several significant predictors, including PTS, FTA, TRB, AST, and the PTS × FTA interaction. However, variance inflation factors (VIFs) indicated severe multicollinearity, particularly for PTS, FTA, and the interaction term (VIFs > 15), suggesting that the model required refinement.
+
+1.2 Addressing Multicollinearity
+
+Because high VIFs can destabilize estimates and inflate standard errors, we removed the interaction term and refit the model. VIFs decreased substantially, though PTS and FTA remained moderately correlated. This motivated further variable screening techniques to identify a more stable subset of predictors.
+
+1.3 Stepwise Selection (Forward + Backward)
+
+We applied stepwise regression using both AIC and significance-based entry/removal criteria. The algorithm sequentially selected:
+
+1. PTS
+
+2. AST
+
+3. TRB
+
+4. MP
+
+5. stocks
+
+6. Value_Billions
+
+The resulting model achieved adj. R² $\approx$ 0.700, indicating that these six variables captured most of the explanatory power of the quantitative predictors.
+
+1.4 Refined Quantitative Model
+
+T-tests revealed that FG_pct, FTA, and Value_Billions were not consistently significant when included alongside other predictors. We therefore fit a simplified model using only the strongest contributors:
+
+\( avg\_salary\_millions \sim MP + PTS + TRB + AST \)
+
+All coefficients were significant at the 5% level, and the model achieved adj. R² = 0.706, comparable to the stepwise model but more interpretable.
+
+2. Added Technique: ANOVA Model Comparison
+
+To incorporate our categorical predictors (awards, age groups, and positions), we used nested model comparison via ANOVA to evaluate whether each group of variables significantly improved model fit.
+
+2.1 Awards
+
+Adding “1 award” and “2+ awards” dummy variables significantly improved the model
+(F = 12.00, p < 0.00001).
+This indicates that award-winning players earn significantly more, even after controlling for performance.
+
+2.2 Age Groups
+
+Adding four age-category indicators also significantly improved fit
+(F = 8.30, p < 0.00001).
+Players aged 27–34 earned substantially more than the youngest group, consistent with peak performance and contract structures.
+
+2.3 Player Positions
+
+Adding position dummies (PG, SG, SF, PF) modestly improved the model
+(F = 3.54, p = 0.007).
+Most position effects were small, but shooting guards showed a significantly lower salary relative to the baseline position.
+
+3. Model Assessment
+3.1 Coefficient Interpretation
+
+In the full quantitative-plus-qualitative model:
+
+PTS remained the strongest predictor.
+
+AST retained a meaningful positive effect.
+
+Awards (2+) added a large salary premium.
+
+Age 27–34 corresponded to significantly higher earnings.
+
+The SG position showed a negative effect relative to the baseline.
+
+3.2 Confidence Intervals
+
+95% confidence intervals confirmed:
+
+Large, positive, and stable effects for PTS and AST.
+
+Awards (2+) reliably increased salary (CI entirely above 6.85).
+
+Position effects were weaker, with many CIs crossing zero.
+
+3.3 Diagnostic Plots
+
+Figures included:
+
+Cook’s Distance (pg. 9): observations 21, 25, 73, 86 appeared influential.
+
+Influence Plot: a few high-leverage points identified, but none requiring removal.
+
+Studentized Residuals Plot (pg. 10): small number of outliers beyond ±2.
+
+Overall, diagnostics indicated no major violations of linear model assumptions.
+
+4. Selecting the Final Best Model
+
+We compared models in terms of:
+
+Explanatory power (adj. R²)
+
+Statistical significance (ANOVA tests)
+
+Interpretability
+
+Diagnostic behavior
+
+The final chosen model is the full quantitative model combined with awards, age categories, and positions, as it:
+
+Achieved the highest adjusted R² (0.7477)
+
+Demonstrated significant improvements when categorical variables were added
+
+Provided interpretable insight into both performance metrics and demographic effects
+
+Passed key diagnostic and influence checks
+
+Final Model:
+
+$\text{avg\_salary\_millions} \sim MP + PTS + TRB + AST + \text{awards}_1 + \text{awards}_{2+} + \text{Age}_{22-26} + \text{Age}_{27-31} + \text{Age}_{32-34} + \text{Age}_{35+} + \text{Pos}_{PF} + \text{Pos}_{PG} + \text{Pos}_{SF} + \text{Pos}_{SG}$
+
+
+This model best balances accuracy, parsimony, and interpretability.
 
 ## Conclusions
 
