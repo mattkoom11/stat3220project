@@ -13,12 +13,14 @@ knitr::opts_chunk$set(echo = TRUE)
 library(ggplot2)
 library(dplyr)
 library(car)
+library(caret)
 library(reshape2)
 library(olsrr)
 ```
 
 ```{r}
 df <- read.csv("main.csv")
+df <- na.omit(df)
 head(df)
 ```
 
@@ -37,6 +39,7 @@ print(vif_values)
 vif_less <- lm(avg_salary_millions ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions, data = df)
 print(vif(vif_less))
 ```
+
 # Stepwise
 ```{r}
 ols_step_both_p(vif_less,p_ent=0.15,p_rem=0.15,details=T)
@@ -81,6 +84,23 @@ anova(reduced_pos, quant_and_qual)
 ```{r}
 conf <- confint(quant_and_qual, level = 0.95)
 conf
+```
+
+# K-Fold Cross Validation
+```{r}
+cv_model <- train(
+  avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Age_22_26 + Age_27_31 +   Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df,
+  method = "lm",
+  trControl = trainControl(method = "cv", number = 5)
+)
+
+# display results
+print(cv_model)
+
+# key metrics
+cat("\nCV RMSE:", round(cv_model$results$RMSE, 4))
+cat("\nCV R-squared:", round(cv_model$results$Rsquared, 4))
+cat("\nCV MAE:", round(cv_model$results$MAE, 4))
 ```
 
 # Residual Analysis
