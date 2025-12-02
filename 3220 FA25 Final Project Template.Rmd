@@ -69,66 +69,47 @@ Overall, the combined dataset contains a rich mixture of performance and recogni
 
 ### Exploratory Data Analysis
 
-```{r, echo=FALSE}
-## Use this code  to include the relevant plots from EDA
-## This should NOT be a dump of all of your plots and outputs.
-## Refer to the Rmarkdown guide for sizing information on your plots
+```{r, echo=FALSE,warning=FALSE}
+library(patchwork)
 
-ggplot(df, aes(x = avg_salary_millions)) + geom_histogram(binwidth = 1, fill = "blue", color = "black") + labs(title = "Distribution of Average Salaries (Millions)", x = "Average Salary (Millions)", y = "Count") + theme_minimal()
-
-p2_salary_vs_pts <- ggplot(df, aes(x = PTS, y = avg_salary_millions
-)) +
-  geom_point(alpha = 0.6) +
-  geom_smooth(method = "lm", se = FALSE) +
-  labs(
-    title = "Salary vs Points Per Game",
-    x = "Points per game",
-    y = "Salary (millions)"
-  ) +
+# Create your plots (same as before)
+p1 <- ggplot(df, aes(x = avg_salary_millions)) + 
+  geom_histogram(binwidth = 1, fill = "blue", color = "black") + 
+  labs(title = "Distribution of Average Salaries (Millions)", 
+       x = "Average Salary (Millions)", y = "Count") + 
   theme_minimal()
 
-p2_salary_vs_pts
-
+p2_salary_vs_pts <- ggplot(df, aes(x = PTS, y = avg_salary_millions)) +
+  geom_point(alpha = 0.6) +
+  geom_smooth(method = "lm", se = FALSE) +
+  labs(title = "Salary vs Points Per Game",
+       x = "Points per game", y = "Salary (millions)") +
+  theme_minimal()
 
 p3_salary_vs_stocks <- ggplot(df, aes(x = stocks, y = avg_salary_millions)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(
-    title = "Salary vs Defensive Stocks (Steals + Blocks)",
-    x = "Stocks (steals + blocks per game or total)",
-    y = "Salary (millions)"
-  ) +
+  labs(title = "Salary vs Defensive Stocks (Steals + Blocks)",
+       x = "Stocks (steals + blocks per game or total)", 
+       y = "Salary (millions)") +
   theme_minimal()
-
-p3_salary_vs_stocks
-
 
 p4_salary_by_awards <- ggplot(df, aes(x = Awards, y = avg_salary_millions)) +
   geom_boxplot(fill = "grey85") +
-  labs(
-    title = "NBA Salary by Awards Category",
-    x = "Awards Category",
-    y = "Salary (millions)"
-  ) +
+  labs(title = "NBA Salary by Awards Category",
+       x = "Awards Category", y = "Salary (millions)") +
   theme_minimal()
-
-p4_salary_by_awards
 
 p6_salary_by_age <- ggplot(df, aes(x = Age, y = avg_salary_millions)) +
   geom_boxplot(fill = "lightgray") +
-  labs(
-    title = "NBA Salary by Age Group",
-    x = "Age Group",
-    y = "Salary (millions)"
-  ) +
+  labs(title = "NBA Salary by Age Group",
+       x = "Age Group", y = "Salary (millions)") +
   theme_minimal()
 
-p6_salary_by_age
-
-
-# This partition is optional, but can be useful for a simple way to resize your plots
-par(mfrow=c(2,3),pin=c(1,1),mar=c(7.1,4.1,3,1))
-
+# Combine in 3x2 grid
+(p1 | p2_salary_vs_pts) / 
+  (p3_salary_vs_stocks | p4_salary_by_awards) / 
+  (p6_salary_by_age | plot_spacer())
 ```
 
 ### EDA Summary
@@ -263,6 +244,27 @@ head(df)
 
 ### Background
 
+Staw, B. M., & Hoang, H. (1995).
+Sunk costs in the NBA: Why draft order affects playing time and survival in professional basketball. Administrative Science Quarterly, 40(3), 474–494.
+https://doi.org/10.2307/2393794
+
+Kubatko, J., Oliver, D., Pelton, K., & Rosenbaum, D. T. (2007).
+A starting point for analyzing basketball statistics. Journal of Quantitative Analysis in Sports, 3(3).
+https://doi.org/10.2202/1559-0410.1070
+
+NBA. (2023).
+Collective Bargaining Agreement: Summary of principal terms.
+https://nbpa.com/cba
+
 ### Data Sources
+
+Statista (NBA franchise values):
+Statista. (2010). Franchise value of National Basketball Association teams in 2010. https://www.statista.com/statistics/193696/franchise-value-of-national-basketball-association-teams-in-2010/
+
+Basketball-Reference (Player contracts):
+Basketball-Reference.com. (n.d.). NBA player contracts. https://www.basketball-reference.com/contracts/players.html
+
+Basketball-Reference (2025 Per-game stats):
+Basketball-Reference.com. (2025). NBA per game statistics: 2024–25 season. https://www.basketball-reference.com/leagues/NBA_2025_per_game.html
 
 ### Additional Help
