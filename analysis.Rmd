@@ -77,12 +77,10 @@ reduced_pos <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards
 anova(reduced_pos, quant_and_qual)
 ```
 
-# Confidence/Prediction Intervals
+# Confidence Intervals
 ```{r}
 conf <- confint(quant_and_qual, level = 0.95)
 conf
-
-# add prediction
 ```
 
 # Residual Analysis
