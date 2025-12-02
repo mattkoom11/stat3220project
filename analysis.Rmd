@@ -96,11 +96,6 @@ cv_model <- train(
 
 # display results
 print(cv_model)
-
-# key metrics
-cat("\nCV RMSE:", round(cv_model$results$RMSE, 4))
-cat("\nCV R-squared:", round(cv_model$results$Rsquared, 4))
-cat("\nCV MAE:", round(cv_model$results$MAE, 4))
 ```
 
 # Residual Analysis
