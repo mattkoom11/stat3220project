@@ -69,7 +69,7 @@ Overall, the combined dataset contains a rich mixture of performance and recogni
 
 ### Exploratory Data Analysis
 
-```{r, echo=FALSE,warning=FALSE}
+```{r, echo=FALSE,warning=FALSE, fig.width=16, fig.height=20}
 library(patchwork)
 
 # Create your plots (same as before)
