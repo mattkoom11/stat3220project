@@ -24,7 +24,7 @@ library(dplyr)
 library(car)
 library(reshape2)
 
-df <- read.csv("cleaned_data.csv")
+df <- read.csv("main.csv")
 head(df)
 
 #\includegraphics{/Users/kristavaranyak/Downloads/GOLDyulo.jpg}
