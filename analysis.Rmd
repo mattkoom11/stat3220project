@@ -26,11 +26,9 @@ head(df)
 
 # Normal Distribution of Data
 ```{r}
-vals <- sqrt(df$avg_salary_millions)
-hist(vals,
-     breaks = seq(min(vals), max(vals), length.out = 50),
-     col = "blue",
-     main = "Distribution of log-salaries")
+df <- df[df$MP > 20, ]
+df$sqrt_sal <- sqrt(df$avg_salary_millions + 1)
+hist(df$sqrt_sal, breaks = 40)
 ```
 
 # Initial Model Creation
