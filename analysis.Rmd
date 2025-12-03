@@ -112,6 +112,5 @@ ols_plot_resid_stud_fit(quant_and_qual)
 
 # remove obs 86 and 154
 ```{r}
-
-
+df <- df[-c(86, 154), ]
 ```
