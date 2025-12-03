@@ -34,6 +34,7 @@ hist(df$sqrt_sal, breaks = 40)
 # Initial Model Creation
 
 ```{r}
+# need to change to sqrt_sal now
 initial_model <- lm(avg_salary_millions ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions + (PTS * FTA), data = df)
 summary(initial_model)
 ```
