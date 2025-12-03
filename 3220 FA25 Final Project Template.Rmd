@@ -117,29 +117,25 @@ p6_salary_by_age <- ggplot(df, aes(x = Age, y = avg_salary_millions)) +
 ```
 
 ### EDA Summary
-To explore how performance and recognition relate to NBA salaries, we began by examining the distribution of our response variable, average salary in millions of dollars. The histogram shows a heavily right-skewed pattern, with most players earning under \$10 million and a small number of superstars earning between \$40–\$60 million. Numerically, the median salary is approximately $5.4 million, while the mean is \$9.0 million, reflecting the effect of these extremely high-earnings players on the average. Despite the skewness, salary is a continuous variable with meaningful spread, making it suitable for multiple linear regression. If residual diagnostics later indicate violations of normality assumptions, we may consider transformations such as the logarithm of salary.
+To understand how performance and recognition relate to NBA salaries, we first examined the distribution of average salary. Salaries are heavily right-skewed: most players earn under \$10 million, while a small group reaches \$40–\$60 million. The mean (\$9.0M) exceeds the median (\$5.4M), reflecting this skew. Despite the imbalance, salary has sufficient spread for multiple linear regression, with the option of a log transformation if needed.
 
-We next investigated how scoring performance relates to salary. The scatterplot of salary vs points per game (PTS) displays a strong positive trend, supported by a steep regression line. Players scoring 20 or more points per game typically earn \$35–\$45 million, while those under 5 points often earn below $5 million. This aligns with economic expectations, as scoring is a highly valued offensive skill in the modern NBA.
+Performance variables show clear trends. Scoring has the strongest relationship with salary—players scoring 20+ points per game often earn \$35–\$45 million, compared to under \$5 million for low scorers. Defensive output, measured by stocks (steals + blocks), displays a more moderate positive trend, indicating that defense influences valuation but less strongly than scoring.
 
-Defensive performance, measured through stocks (steals + blocks), also shows a positive association with salary, although the trend is more moderate. Players averaging two or more stocks tend to cluster around \$20–\$40 million, whereas those producing under one stock per game tend to earn much less. This suggests that defensive impact contributes to player valuation, but not as strongly as scoring.
+Award recognition corresponds with substantial salary differences. Players with no awards earn around \$8 million, whereas those with one award jump to roughly \$50 million, and those with two or more to about \$55 million. This suggests that accolades capture aspects of player reputation beyond raw statistics.
 
-We also examined how award recognition relates to salary. The boxplot comparing players with “0 awards,” “1 award,” and “2+ awards” shows clear separation between the three groups. Players with no awards have a median salary of about \$8 million, while those with one award have a median closer to \$50 million. Players with two or more awards earn slightly more, with a median of roughly \$55 million. These differences imply that league-wide recognition corresponds with significantly higher pay and may capture aspects of player reputation that go beyond raw statistics.
+We also examined salary across age groups to contextualize performance and recognition within career arcs. Players aged 27–31 earn the highest median salaries, consistent with peak physical and skill development. Younger players (22–26) and older veterans (35+) earn less on average, reflecting typical progression and decline patterns within NBA careers.
 
-Finally, to understand salary variation across career stages, we examined a boxplot of salary by age group. Players in the 27–31 age range earn the highest median salaries, reflecting the common peak-performance window in NBA careers. Younger players (22–26) and older veterans (35+) tend to earn less on average, which aligns with typical player development and decline patterns. This demographic plot adds context for interpreting performance and award variables within the broader structure of player career arcs.
+Before proceeding to modeling, we evaluated potential multicollinearity among the predictors. Although scoring may correlate with other offensive statistics, our chosen variables—PTS, stocks, Awards, and Age—do not appear strongly correlated based on initial inspection. We will confirm this formally using VIFs during model construction.
 
-Before moving to regression modeling, we considered the possibility of multicollinearity among predictors. While scoring (PTS) may correlate with other offensive variables, our selected predictors—PTS, stocks, Awards, and Age—do not appear strongly correlated with one another based on preliminary inspection. This reduces concerns about inflated standard errors, which we will confirm formally using Variance Inflation Factors (VIFs) in the modeling stage.
-
-Overall, the EDA reveals consistent and meaningful trends:
-
+Overall, the exploratory analysis reveals several consistent patterns: 
 \begin{itemize}
-  \item Salary is right-skewed with a large upper tail of superstar contracts.
-  \item Scoring shows a strong positive relationship with salary.
-  \item Defensive stocks have a moderate positive association with salary.
-  \item Award recognition corresponds with substantial salary increases.
-  \item Salary peaks in mid-career age groups, aligning with performance arcs.
+  \item salaries are right-skewed with a superstar-driven upper tail
+  \item scoring is strongly tied to pay
+  \item defensive production shows a moderate positive association
+  \item awards correspond to substantial salary increases
+  \item peak earnings occur mid-career. 
 \end{itemize}
-
-These patterns justify inclusion of the selected predictors and provide a clear foundation for developing the multiple linear regression model.
+These insights justify each chosen predictor and establish a clear foundation for building our multiple linear regression model.
 
 ```{r, echo=FALSE, warning=FALSE,results=FALSE}
 ## Use this code chunk can be used to execute any functions or summaries 
@@ -154,13 +150,11 @@ These patterns justify inclusion of the selected predictors and provide a clear 
 
 ```
 
-Assessing Multicollinearity
+\textbf{Assessing Multicollinearity}
 
-We will begin our analysis stage by looking for multicollinearity between predictors. In our exploratory data analysis, we identified that there may be high multicollinearity between Pts and other predictors related to offensive statistics, like FTA and MP. After examining our correlation heatmap from EDA, we will need to further examine pairwise relationships and VIFs to identify potential hazards in our model. 
+We began our analysis by assessing multicollinearity among predictors. From our EDA correlation heatmap, we observed potential overlap between PTS and other offensive statistics such as FTA and MP. We quantified these relationships using pairwise correlations and VIFs. If VIFs fell below standard thresholds (individual < 10, average < 3), we proceeded; otherwise, we used variable screening and stepwise regression to identify a reduced subset of predictors. After selecting a more stable set of variables, we reassessed multicollinearity before model building.
 
-Our first step will be to acquire numerical information regarding pairwise relationships. That is, identify the correlation between our explanatory variables. We will then analyze multicollinearity through VIF analysis. If individual VIFs are below the threshold of 10, and the average VIF is below 3, then multicollinearity is not a concern and we will move onto model building. However, in the case that multicollinearity is a concern, we will engage in variable screening to identify which predictors may not be necessarily impactful in this model. Using Stepwise Regression, we will identify a set of predictors that may be adequate at predicting Salary. With our new subset, we can reassess multicollinearity and decide which predictors to move forward with.
-
-Building the Model
+\textbf{Building the Model}
 
 We will begin building our model by estimating our model parameters, starting with only our quantitative predictors and a quantitative interaction term that we believe may contribute to the model. Our initial model using quantitative predictors is as follows: 
 
@@ -172,27 +166,19 @@ We will begin building our model by estimating our model parameters, starting wi
 \end{aligned}
 \]
 
-After estimating this Multiple Linear Regression model using the lm() function, we will first evaluate its utility using a Global F-Test. Assuming the model is adequate at predicting Salary, we will move forward by testing our most important predictors using individual T-tests. The first T-test we will perform is for our interaction, PTS*FTA. If this interaction is significant at a predetermined alpha (.05), we will keep it in the model and continue with our T-tests. Our other variables of interest, namely PTS and Stocks, will then be tested to ensure they are significant at predicting salary. If any variables are largely insignificant and we believe they may not be a strong determinator of predicted salary, we will remove them from the model and return to a Global F-Test with the updated model.
+We estimated this model with lm() and evaluated overall utility using a Global F-Test. Significant predictors—including the interaction—were identified through individual t-tests. Non-significant predictors were removed, and the updated model was rechecked with another Global F-Test.
 
-Following our evaluation of the model with quantitative predictors, we will add in our qualitative predictors, and a Qualitative x Qualitative interaction term we believe may contribute to the model: Awards*Age
+Next, we incorporated qualitative predictors and one interaction (Awards × Age). We again performed a Global F-Test, followed by t-tests for the interaction and a Nested F-Test for the Awards factor. Only significant categorical effects were retained. No quantitative × qualitative interactions were considered. Once the final set of predictors was selected, we confirmed model adequacy with a concluding Global F-Test.
 
-After adding our qualitative variables into the model, we will perform a Global F-Test to ensure the model is adequate at predicting Salary. We will then move into the necessary tests to evaluate individual predictors and interactions. We will begin by testing the interaction between Awards and Age with a T-test. If the interaction is significant, we will keep it in the model and continue with our analysis. We will then test our qualitative variable of interest, awards, using a Nested F-Test. If awards are significant at predicting Salary, we will keep it in the model and move forward.
+\textbf{Assessing the Model (Including Cross Validation)}
 
-We will not be testing any Quantitative X Qualitative Interactions.
+Once we’ve finalized our model through variable testing, we conducted a holistic assessment of our model for a better understanding of its capabilities and limitations. We evaluated metrics such as $R^2$, Adjusted $R^2$, and $\sqrt{MSE}$ to evaluate our model. Separately, interpreted confidence and prediction intervals to ensure our model performs on a practical level.
 
-After we have our final model achieved through testing, we will once again evaluate the utility of the model through a Global F-Test to ensure the model is adequate at predicting Salary.
+In addition to the traditional assessment metrics, we incorporated Cross Validation into our final project. Cross validation is a machine learning technique used to assess the performance and accuracy of a model. Performing Cross validation allows the model builder to see whether their model overfits or underfits by training the majority of a data set, and using the remaining data for testing. The trained set is then used to estimate a linear regression model evaluated on metrics such as $\sqrt{MSE}$ and $R^2$. More specifically, we will use the Validation Set Approach in R, which randomly splits 80% of the dataset into training, and 20% into testing. By performing Cross Validation we will have a strong idea of whether our model is prepared to be used on new data, or if further adjustments must be made.
 
-Assessing the Model (Including Cross Validation)
+\textbf{Checking Model Assumptions}
 
-Once we’ve finalized our model through variable testing, we will conduct a holistic assessment of our model for a better understanding of its capabilities and limitations. We will evaluate metrics such as R2, Adjusted R2, Root-MSE to evaluate our model. Separately, we will interpret confidence and prediction intervals and ensure our model performs on a practical level.
-
-In addition to the traditional assessment metrics, we will be incorporating Cross Validation into our final project. Cross validation is a machine learning technique used to assess the performance and accuracy of a model. Performing Cross validation allows the model builder to see whether their model overfits or underfits by training the majority of a data set, and using the remaining data for testing. The trained set is then used to estimate a linear regression model evaluated on metrics such as Root-MSE and R2. More specifically, we will use the Validation Set Approach in R, which randomly splits 80% of the dataset into training, and 20% into testing. By performing Cross Validation we will have a strong idea of whether our model is prepared to be used on new data, or if further adjustments must be made.
-
-Checking Model Assumptions
-
-Our last analysis step will be checking the model assumptions through residual analysis. The four assumptions we’ll be checking are the Lack of Fit, Constant Variance, Normality, and Independence. Through examination of residual plots, residual vs. fitted plots, QQ plots, and histograms of the residuals we’ll be able to tell whether any of these assumptions have been violated.
-
-We will then identify outliers and influential observations through Cooks Distance, Leverage, Studentized Residuals, and Deleted Studentized Residuals. If there are any influential observations that may be jeopardizing our model, we will consider removing them from the dataset.
+We evaluated model assumptions using residual diagnostics. Residual vs. fitted plots, QQ plots, histograms, and lack-of-fit assessments enabled us to check constant variance, normality, independence, and overall fit. We then examined outliers and influential points through Cook’s Distance, leverage, Studentized Residuals, and Deleted Studentized Residuals. If any observations exerted undue influence, we considered removing them to improve model integrity.
 
 ## Results
 
@@ -201,7 +187,7 @@ We will then identify outliers and influential observations through Cooks Distan
 1.1 Initial Model Building
 
 We began by fitting a full multiple linear regression model using all quantitative predictors—minutes played (MP), points (PTS), field goal percentage (FG_pct), free-throw attempts (FTA), rebounds (TRB), assists (AST), defensive stocks, team value, and the interaction term between PTS and FTA.
-The initial model explained approximately 71.9% of salary variation (adj. R² = 0.711), and identified several significant predictors, including PTS, FTA, TRB, AST, and the PTS × FTA interaction. However, variance inflation factors (VIFs) indicated severe multicollinearity, particularly for PTS, FTA, and the interaction term (VIFs > 15), suggesting that the model required refinement.
+The initial model explained approximately 71.9% of salary variation (adj. $R^2$ = 0.711), and identified several significant predictors, including PTS, FTA, TRB, AST, and the PTS × FTA interaction. However, variance inflation factors (VIFs) indicated severe multicollinearity, particularly for PTS, FTA, and the interaction term (VIFs > 15), suggesting that the model required refinement.
 
 1.2 Addressing Multicollinearity
 
