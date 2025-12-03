@@ -65,7 +65,7 @@ These questions allow us to assess how performance and recognition jointly relat
 
 ## Data Summary
 ### Data Sources
-Our dataset includes all NBA players who appeared during the 2024–2025 season, combining salary, performance, demographic, and award information. Player statistics and awards were sourced from Basketball Reference, while Statista provided team franchise values to add economic context. After standardizing player names, we merged all sources so each player occupied one row. Awards were simplified into a three-level categorical variable, and age was grouped into brackets. All players who logged minutes were retained to preserve the natural distribution of roles and contracts. The resulting dataset is comprehensive, well-structured, and suitable for analyzing how performance and recognition relate to NBA salary variation.
+Our original dataset included all NBA players who appeared during the 2024–2025 season, combining salary, performance, demographic, and award information. However, to stabilize variance and reduce right skew in the response variable, we restricted the dataset to players averaging more than 20 minutes per game and applied a square-root transformation to salary (sqrt(Salary + 1)). The transformed distribution is noticeably more symmetric and appropriate for linear modeling. Player statistics and awards were sourced from Basketball Reference, while Statista provided team franchise values to add economic context. After standardizing player names, we merged all sources so each player occupied one row. Awards were simplified into a three-level categorical variable, and age was grouped into brackets.
 
 ### Exploratory Data Analysis
 
@@ -115,17 +115,9 @@ p6_salary_by_age <- ggplot(df, aes(x = Age, y = log_salary)) +
 ```
 
 ### EDA Summary
-NBA salaries are heavily right-skewed: most players earn under \$10 million, while a small superstar group reaches \$40–\$60 million. The mean exceeds the median, but the variable still has adequate spread for linear modeling.
+Log-transformed salary shows a strong positive linear relationship with scoring: players above ~20 PPG consistently fall in the upper salary range on the log scale, while low-scoring players cluster near the lower end. Defensive performance, measured by stocks (steals + blocks), also has a positive association with salary, though the relationship is noticeably weaker and contains more variance, as shown by the scattered cloud in the plot.
 
-Scoring shows the strongest salary relationship—20+ PPG players often earn \$35–\$45 million, compared to under \$5 million for low scorers. Defensive stocks have a more modest positive association, indicating that defense matters but is less financially influential than scoring.
-
-Awards correspond to major salary jumps: players with no awards earn about \$8 million, while those with one or more awards earn \$50–\$55 million, reflecting the added value of recognized excellence.
-
-Salary patterns across age groups align with typical NBA career arcs, peaking at ages 27–31 and tapering for younger and older players.
-
-Initial checks show little multicollinearity among PTS, stocks, awards, and age, which supports their suitability for modeling.
-
-Overall, the EDA highlights five patterns: salaries are right-skewed, scoring is the strongest predictor, defense shows moderate influence, awards correlate with large pay increases, and earnings peak mid-career. These results provide a clear rationale for our chosen predictors moving into regression modeling.
+Awards and experience further separate players into clear salary tiers. The boxplots show that players with even one award earn substantially more on the log scale, and those with multiple awards form the highest and most compressed salary group. Age groups display a similar trend: older, more experienced players (particularly those in the 27–31 and 32–34 brackets) show higher median log salaries, reflecting the market value of veteran players. Younger players (Age_1) display a much wider spread, consistent with rookie deals and early-career variability.
 ```{r, echo=FALSE, warning=FALSE,results=FALSE}
 ## Use this code chunk can be used to execute any functions or summaries 
 ## that will not be included in your output such as correlations or 5 number summaries
@@ -167,6 +159,8 @@ We also incorporated cross-validation to evaluate model reliability. Cross-valid
 \textbf{Checking Model Assumptions}
 
 We evaluated model assumptions using residual diagnostics. Residual vs. fitted plots, QQ plots, histograms, and lack-of-fit assessments enabled us to check constant variance, normality, independence, and overall fit. We then examined outliers and influential points through Cook’s Distance, leverage, Studentized Residuals, and Deleted Studentized Residuals. If any observations exerted undue influence, we considered removing them to improve model integrity.
+
+\newpage
 
 ## Results
 
