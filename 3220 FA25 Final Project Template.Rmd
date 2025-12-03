@@ -47,15 +47,15 @@ Motivated by these findings, our project examines the statistical relationships 
 
 Our general research question is:
 
-What factors best explain variation in NBA player salary during the 2024-2025 season?
+\textbf{What factors best explain variation in NBA player salary during the 2024-2025 season?}
 
 To address this, we developed three specific research questions:
 
-Do NBA players who score more points (PTS) earn higher salaries on average?
-
-Is there a meaningful positive relationship between a player’s defensive activity (“stocks”) and their salary?
-
-Do players who have earned at least one major NBA award receive higher salaries compared to players with no awards?
+\begin{itemize}
+  \item Do NBA players who score more points (PTS) earn higher salaries on average?
+  \item Is there a meaningful positive relationship between a player’s defensive activity (“stocks”) and their salary?
+  \item Do players who have earned at least one major NBA award receive higher salaries compared to players with no awards?
+\end{itemize}
 
 Together, these questions reflect distinct aspects of performance and recognition. By analyzing these variables, we aim to identify which factors are most strongly associated with salary and how our findings compare to patterns documented in the sports-economics literature.
 
@@ -127,15 +127,13 @@ Before moving to regression modeling, we considered the possibility of multicoll
 
 Overall, the EDA reveals consistent and meaningful trends:
 
-Salary is right-skewed with a large upper tail of superstar contracts.
-
-Scoring shows a strong positive relationship with salary.
-
-Defensive stocks have a moderate positive association with salary.
-
-Award recognition corresponds with substantial salary increases.
-
-Salary peaks in mid-career age groups, aligning with performance arcs.
+\begin{itemize}
+  \item Salary is right-skewed with a large upper tail of superstar contracts.
+  \item Scoring shows a strong positive relationship with salary.
+  \item Defensive stocks have a moderate positive association with salary.
+  \item Award recognition corresponds with substantial salary increases.
+  \item Salary peaks in mid-career age groups, aligning with performance arcs.
+\end{itemize}
 
 These patterns justify inclusion of the selected predictors and provide a clear foundation for developing the multiple linear regression model.
 
