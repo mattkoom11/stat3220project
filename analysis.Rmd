@@ -26,9 +26,11 @@ head(df)
 
 # Normal Distribution of Data
 ```{r}
-df$log_salary_millions <- log(df$avg_salary_millions + 1)
-hist(df$log_salary_millions, main = "Distribution of Log(Average Salary)", 
-     xlab = "Log(Average Salary)", col = "blue")
+vals <- sqrt(df$avg_salary_millions)
+hist(vals,
+     breaks = seq(min(vals), max(vals), length.out = 50),
+     col = "blue",
+     main = "Distribution of log-salaries")
 ```
 
 # Initial Model Creation
