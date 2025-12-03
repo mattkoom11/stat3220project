@@ -89,14 +89,14 @@ summary(final)
 
 # Confidence Intervals
 ```{r}
-conf <- confint(quant_and_qual, level = 0.95)
+conf <- confint(final, level = 0.95)
 conf
 ```
 
 # K-Fold Cross Validation
 ```{r}
 cv_model <- train(
-  avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Age_22_26 + Age_27_31 +   Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df,
+  log_salary ~ PTS + MP + stocks + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus, data = df,
   method = "lm",
   trControl = trainControl(method = "cv", number = 5)
 )
@@ -104,20 +104,36 @@ cv_model <- train(
 # display results
 print(cv_model)
 ```
+# Assumption Plots
+```{r}
+#store residuals from the model
+finres<-residuals(final)
+sum(finres)
+mean(finres)
+
+#Residuals Plots of explanatory variables vs residuals
+residualPlots(final,tests=F)
+
+#Residual vs Fitted and QQ plot
+plot(final, which=c(1,2))
+
+#histogram of residuals
+hist(finres)
+```
 
 # Residual Analysis
 ```{r}
 # Cooks Distance Thresholds
-plot(quant_and_qual,which=4)
+plot(final,which=4)
 
 # Leverage vs Studentized Residuals
-influencePlot(quant_and_qual,fill=F)
+influencePlot(final,fill=F)
 
 # Deleted Studentized Residuals vs Predicted values
-ols_plot_resid_stud_fit(quant_and_qual)
+ols_plot_resid_stud_fit(final)
 ```
 
-# remove obs 86 and 154
+# remove obs 86 and 154 (work in progress)
 ```{r}
 df <- df[-c(86, 154), ]
 ```
