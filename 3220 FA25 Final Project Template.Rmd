@@ -72,39 +72,43 @@ Our dataset includes all NBA players who appeared during the 2024–2025 season,
 ```{r, echo=FALSE,warning=FALSE, fig.width=16, fig.height=20}
 library(patchwork)
 
-# Create your plots (same as before)
-p1 <- ggplot(df, aes(x = avg_salary_millions)) + 
-  geom_histogram(binwidth = 1, fill = "blue", color = "black") + 
-  labs(title = "Distribution of Average Salaries (Millions)", 
-       x = "Average Salary (Millions)", y = "Count") + 
+df <- df[df$MP > 20, ]
+df$sqrt_sal <- sqrt(df$avg_salary_millions + 1)
+
+p1 <- ggplot(df, aes(x = sqrt_sal)) +
+  geom_histogram(binwidth = 0.25, fill = "blue", color = "black") +
+  labs(title = "Distribution of sqrt-transformed Salaries",
+       x = "sqrt(Salary + 1)", y = "Count") +
   theme_minimal()
 
-p2_salary_vs_pts <- ggplot(df, aes(x = PTS, y = avg_salary_millions)) +
+p2_salary_vs_pts <- ggplot(df, aes(x = PTS, y = sqrt_sal)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Salary vs Points Per Game",
-       x = "Points per game", y = "Salary (millions)") +
+  labs(title = "sqrt(Salary) vs Points Per Game",
+       x = "Points per game", y = "sqrt(Salary + 1)") +
   theme_minimal()
 
-p3_salary_vs_stocks <- ggplot(df, aes(x = stocks, y = avg_salary_millions)) +
+p3_salary_vs_stocks <- ggplot(df, aes(x = stocks, y = sqrt_sal)) +
   geom_point(alpha = 0.6) +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(title = "Salary vs Defensive Stocks (Steals + Blocks)",
-       x = "Stocks (steals + blocks per game or total)", 
-       y = "Salary (millions)") +
+  labs(title = "sqrt(Salary) vs Defensive Stocks (Steals + Blocks)",
+       x = "Stocks (steals + blocks)", 
+       y = "sqrt(Salary + 1)") +
   theme_minimal()
 
-p4_salary_by_awards <- ggplot(df, aes(x = Awards, y = avg_salary_millions)) +
+p4_salary_by_awards <- ggplot(df, aes(x = Awards, y = sqrt_sal)) +
   geom_boxplot(fill = "grey85") +
-  labs(title = "NBA Salary by Awards Category",
-       x = "Awards Category", y = "Salary (millions)") +
+  labs(title = "sqrt(Salary) by Awards Category",
+       x = "Awards Category", y = "sqrt(Salary + 1)") +
   theme_minimal()
 
-p6_salary_by_age <- ggplot(df, aes(x = Age, y = avg_salary_millions)) +
+p6_salary_by_age <- ggplot(df, aes(x = Age, y = sqrt_sal)) +
   geom_boxplot(fill = "lightgray") +
-  labs(title = "NBA Salary by Age Group",
-       x = "Age Group", y = "Salary (millions)") +
+  labs(title = "sqrt(Salary) by Age Group",
+       x = "Age Group", y = "sqrt(Salary + 1)") +
   theme_minimal()
+
+
 
 # Combine in 3x2 grid
 (p1 | p2_salary_vs_pts) / 
