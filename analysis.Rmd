@@ -24,18 +24,16 @@ df <- na.omit(df)
 head(df)
 ```
 
-# Normal Distribution of Data
+# Log-transformation of Data
 ```{r}
 df <- df[df$MP > 20, ]
-df$sqrt_sal <- sqrt(df$avg_salary_millions + 1)
-hist(df$sqrt_sal, breaks = 40)
+df$log_salary <- log(df$avg_salary_millions + 1)
 ```
 
 # Initial Model Creation
-
 ```{r}
 # need to change to sqrt_sal now
-initial_model <- lm(avg_salary_millions ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions + (PTS * FTA), data = df)
+initial_model <- lm(log_salary ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions + (PTS * FTA), data = df)
 summary(initial_model)
 ```
 # VIF Analysis
@@ -44,7 +42,7 @@ vif_values <- vif(initial_model)
 print(vif_values)
 
 # high vifs detected, remove
-vif_less <- lm(avg_salary_millions ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions, data = df)
+vif_less <- lm(log_salary ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions, data = df)
 print(vif(vif_less))
 ```
 
@@ -53,39 +51,40 @@ print(vif(vif_less))
 ols_step_both_p(vif_less,p_ent=0.15,p_rem=0.15,details=T)
 ```
 
-# T-Test Quant Only
-```{r}
-summary(vif_less)
-```
-
 # New Model as a Result of Test
 ```{r}
-quant <- lm(avg_salary_millions ~ MP + PTS + TRB + AST, data = df)
+quant <- lm(log_salary ~ PTS + MP + stocks, data = df)
 summary(quant)
 ```
 
 # Adding Qualitative Predictors
 ```{r}
-quant_and_qual <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
+quant_and_qual <- lm(log_salary ~ PTS + MP + stocks + awards_1 + awards_2plus + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
 summary(quant_and_qual)
 ```
 
 # ANOVA Test for reduced model (Awards)
 ```{r}
-reduced_awards <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
+reduced_awards <- lm(log_salary ~ PTS + MP + stocks + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
 anova(reduced_awards, quant_and_qual)
 ```
 
 # ANOVA Test for reduced model (Age)
 ```{r}
-reduced_age <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
+reduced_age <- lm(log_salary ~ PTS + MP + stocks + awards_1 + awards_2plus + Pos_PF + Pos_PG + Pos_SF + Pos_SG, data = df)
 anova(reduced_age, quant_and_qual)
 ```
 
 # ANOVA Test for reduced model (Pos)
 ```{r}
-reduced_pos <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + awards_1 + awards_2plus + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus, data = df)
+reduced_pos <- lm(log_salary ~ PTS + MP + stocks + awards_1 + awards_2plus + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus, data = df)
 anova(reduced_pos, quant_and_qual)
+```
+
+# Final Model
+```{r}
+final <- lm(log_salary ~ PTS + MP + stocks + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus, data = df)
+summary(final)
 ```
 
 # Confidence Intervals
