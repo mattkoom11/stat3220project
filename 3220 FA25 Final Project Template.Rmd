@@ -45,7 +45,7 @@ NBA salaries reflect the combined effects of player performance, recognition, an
 
 Our general research question is:
 
-\textbf{What factors best explain variation in NBA player salary during the 2024-2025 season?}
+\textbf{What factors from the 2024-2025 season best explain variation in future salaries (2025-2026 onwards)?}
 
 To address this, we developed three specific research questions:
 
@@ -141,9 +141,8 @@ We will begin building our model by estimating our model parameters, starting wi
 
 \[
 \begin{aligned}
-\text{Salary} &= \beta_0 + \beta_1 G + \beta_2 MP + \beta_3 PTS + \beta_4 FG\_\% + \beta_5 FTA \\
-              &\quad + \beta_6 TRB + \beta_7 AST + \beta_8 \text{Stocks} + \beta_9 \text{Value} \\
-              &\quad + \beta_{10} (PTS \times FTA)
+\text{Salary} &= \beta_0 + \beta_1 MP + \beta_2 PTS + \beta_3 PFG\_\%TS + \beta_4 FTA + \beta_5 TRB \\
+              &\quad + \beta_6 AST + \beta_7 \text{Stocks} + \beta_8 \text{Value} + \beta_9 (PTS \times FTA) \\
 \end{aligned}
 \]
 
@@ -240,7 +239,9 @@ Although the model performed well, several limitations remained. Two influential
 |Total Assists|AST|This represents the total assits by each respective player.|
 |Steals and Blocks Combined|Stocks|This represents the steals and  blocks achieved by each respective player.|
 |Franchise Value|Value|This represents the franchise value of the team of each respective player.|
-
+|Position|Pos|This represents the position of the player. The position can either be center (reference), power forward (pf), point guard (pg), small forward (sf), or shooting guard (sg).|
+|Awards|awards|This signifies the number of awards a player has won, sorted into three groups: 0 awards (reference), 1 award, or at least 2 awards.|
+|Age|Age|This represents the player's age, sorted into 4 groups: 22-26, 27-31, 32-24, and 35+ (reference).|
 
 \newpage
 
@@ -264,6 +265,9 @@ head(df)
 ## Include the relevant plots from assumptions and your additional techniques
 ## This should NOT be a dump of all of your plots and outputs.
 ## Refer to the Rmarkdown guide for sizing information on your plots
+final_model <- lm(avg_salary_millions ~ MP + PTS + TRB + AST + Pos_PF + 
+    Pos_PG + Pos_SF + Pos_SG, data = df)
+summary(final_model)
 ```
 
 \newpage
