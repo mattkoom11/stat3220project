@@ -10,6 +10,12 @@ header-includes:
 - \onehalfspacing
 ---
 
+```{r, echo=FALSE, out.width="60%", fig.align="center"}
+knitr::include_graphics("images/stephen-curry-nba.png")
+
+```
+
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, highlight=FALSE, comment=NA, warnings=FALSE,message=FALSE)
 ```
