@@ -183,18 +183,35 @@ We evaluated model assumptions using residual diagnostics. Residual vs. fitted p
 ## Results
 
 \textbf{Final Model}
+
 The final model for predicting NBA player average salary (in millions) is:
-avg_salary_millions = β₀ + β₁(MP) + β₂(PTS) + β₃(TRB) + β₄(AST) + β₅(awards_1) + β₆(awards_2plus) + β₇(Age_22_26) + β₈(Age_27_31) + β₉(Age_32_34) + β₁₀(Pos_PF) + β₁₁(Pos_PG) + β₁₂(Pos_SF) + β₁₃(Pos_SG)
+\[
+\begin{aligned}
+\text{Salary} &= \beta_0 + \beta_1 MP + \beta_2 PTS + \beta_3 TRB + \beta_4 AST \\
+              &\quad + \beta_5 awards_1 + \beta_6 awards_{2plus} + \beta_7 \text{Age 22-26} \\ 
+              &\quad + \beta_8 \text{Age 27-31}  + \beta_9 \text{Age 32-34}+ \beta_{10} (Pos_{PF}) \\
+              &\quad + \beta_{11} (Pos_{PG}) + \beta_{12} (Pos_{SF}) + \beta_{13} (Pos_{SG})
+\end{aligned}
+\]
 
 \textbf{Model Development}
+
 Initial VIF analysis revealed severe multicollinearity (VIF > 15) with the interaction term, which was removed. Stepwise selection identified six predictors, but subsequent t-tests reduced the quantitative model to minutes played, points, rebounds, and assists. ANOVA F-tests confirmed that adding qualitative predictors (awards, age, position) significantly improved the model (all p < 0.01).
-Model Performance
-The final model achieved an adjusted R² of 0.7681, explaining 76.8% of salary variation, with a highly significant overall F-statistic (F = 75.39, p < 2.2e-16). The residual standard error was 7.832 million dollars. Five-fold cross-validation yielded RMSE = 8.052 million and R² = 0.761, confirming robust out-of-sample performance.
-Predictor Significance
-Points per game was the strongest predictor (β = 1.453, p < 2e-16), with each additional point worth approximately 1.45 million dollars. Assists per game also showed strong significance (β = 1.545, p = 0.00089). Minutes played and rebounds were not statistically significant in the full model.
+
+\textbf{Model Performance}
+
+The final model achieved an adjusted $R^2$ of 0.7681, explaining 76.8% of salary variation, with a highly significant overall F-statistic ($F = 75.39$, $p < 2.2e-16$). The residual standard error was 7.832 million dollars. Five-fold cross-validation yielded RMSE = 8.052 million and $R^2 = 0.761$, confirming robust out-of-sample performance.
+
+\textbf{Predictor Significance}
+
+Points per game was the strongest predictor ($\beta = 1.453$, $p < 2e-16$), with each additional point worth approximately 1.45 million dollars. Assists per game also showed strong significance ($\beta = 1.545$, p = 0.00089). Minutes played and rebounds were not statistically significant in the full model.
+
 Awards demonstrated substantial salary premiums: one award added 4.36 million dollars (p = 0.0544), while two or more awards added 11.83 million dollars (p < 2.8e-06). Players aged 27-31 earned 4.19 million dollars more than the oldest cohort (p = 0.0537).
-Position effects indicated guards earn significantly less than power forwards: point guards earned 4.67 million less (p = 0.0472), shooting guards 5.24 million less (p = 0.00865), and small forwards showed a similar trend (β = -3.38, p = 0.0667).
-Diagnostics
+
+Position effects indicated guards earn significantly less than power forwards: point guards earned 4.67 million less (p = 0.0472), shooting guards 5.24 million less (p = 0.00865), and small forwards showed a similar trend ($\beta = -3.38$, p = 0.0667).
+
+\textbf{Diagnostics}
+
 Residual analysis identified observations 86 and 154 as influential points with high leverage and large studentized residuals (exceeding ±2). These observations were flagged for removal to ensure robust parameter estimates.
 
 ## Conclusions
