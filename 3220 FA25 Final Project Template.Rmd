@@ -367,9 +367,7 @@ head(df)
 
 ### Background
 
-Staw, B. M., & Hoang, H. (1995).
-Sunk costs in the NBA: Why draft order affects playing time and survival in professional basketball. Administrative Science Quarterly, 40(3), 474–494.
-https://doi.org/10.2307/2393794
+Berri, D. J., & Schmidt, M. B. (2006). The wages of wins. Stanford University Press.
 
 Kubatko, J., Oliver, D., Pelton, K., & Rosenbaum, D. T. (2007).
 A starting point for analyzing basketball statistics. Journal of Quantitative Analysis in Sports, 3(3).
@@ -378,6 +376,14 @@ https://doi.org/10.2202/1559-0410.1070
 NBA. (2023).
 Collective Bargaining Agreement: Summary of principal terms.
 https://nbpa.com/cba
+
+Simmons, R., & Berri, D. J. (2011). Mixing the princes and the paupers: Pay and performance in the NBA. Labour Economics, 18(3), 381–388. https://doi.org/10.1016/j.labeco.2010.12.003
+
+Staw, B. M., & Hoang, H. (1995).
+Sunk costs in the NBA: Why draft order affects playing time and survival in professional basketball. Administrative Science Quarterly, 40(3), 474–494.
+https://doi.org/10.2307/2393794
+
+Stiroh, K. (2007). Playing for keeps: Pay and performance in the NBA. Economic Inquiry, 45(1), 145–161. https://doi.org/10.1111/j.1465-7295.2006.00002.x
 
 ### Data Sources
 
