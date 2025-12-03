@@ -216,6 +216,39 @@ Residual analysis identified observations 86 and 154 as influential points with 
 
 ## Conclusions
 
+Our final multiple linear regression model explained approximately 76.8% of the variation in NBA player salary, indicating strong predictive usefulness. The most influential quantitative predictors were points per game and assists, both of which showed large and statistically significant positive effects on salary. Award recognition and age group also contributed meaningfully, with players earning one award receiving an estimated $4.36M salary increase and players with two or more awards receiving nearly $12M more than otherwise similar players. Mid-career players (ages 27–31) earned significantly higher salaries than the oldest age group, aligning with typical NBA performance peaks.
+
+\textbf{Prediction Equation (in millions)}
+\[
+\begin{aligned}
+\widehat{\text{Salary}} =\;& 
+\beta_0 
++ \beta_1 MP 
++ \beta_2 PTS 
++ \beta_3 TRB 
++ \beta_4 AST \\
+&+ \beta_5(\text{awards}_1)
++ \beta_6(\text{awards}_{2+}) \\
+&+ \beta_7(\text{Age}_{22\text{–}26})
++ \beta_8(\text{Age}_{27\text{–}31}) \\
+&+ \beta_9(\text{Age}_{32\text{–}34}) \\
+&+ \beta_{10}(\text{Pos}_{PF})
++ \beta_{11}(\text{Pos}_{PG}) \\
+&+ \beta_{12}(\text{Pos}_{SF})
++ \beta_{13}(\text{Pos}_{SG})
+\end{aligned}
+\]
+
+
+\textbf{Example Prediction}
+
+For a player who averages **24 PTS**, **6 AST**, **7 TRB**, plays **33 minutes**, has **one award**, and is in the **27–31 age group**, the model predicts a salary in the approximate range of **\$30–\$40 million**, depending on position category. This demonstrates that the model produces intuitive and practically meaningful estimates based on real performance indicators.
+
+\textbf{Future Improvements}
+
+Although the model performs well, several limitations remain. First, the data include two influential outliers (observations 86 and 154), which may distort parameter estimates if not removed or investigated further. Second, salary is influenced by factors not captured in our dataset, such as contract timing, injuries, player popularity, endorsements, or collective bargaining constraints. Adding these variables or using a mixed-effects model could improve realism and predictive accuracy. Finally, because NBA salaries are highly right-skewed, future research could explore log-transformed salary models, nonlinear effects, or more advanced methods such as ridge regression to address remaining multicollinearity and variance issues.
+
+Overall, the model provides a strong statistical foundation for understanding how performance and recognition relate to NBA compensation, while leaving room for richer economic and behavioral features in future analyses.
 \newpage
 
 ## Appendix A: Data Dictionary
