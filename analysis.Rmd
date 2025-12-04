@@ -96,6 +96,9 @@ final <- lm(log_salary ~ PTS + MP + stocks + Age_22_26 + Age_27_31 + Age_32_34 +
 summary(final)
 ```
 
+$$\widehat{log\_salary} = 0.10079 + 0.08228PTS + 0.03258MP + 0.23531stocks + 0.08700Age_{22-26} + 0.39501Age_{27-31} + 0.43997Age_{32-34}$$
+
+
 # Confidence Intervals
 ```{r}
 conf <- confint(final, level = 0.95)
