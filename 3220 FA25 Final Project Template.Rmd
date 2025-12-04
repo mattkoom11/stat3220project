@@ -1,10 +1,12 @@
 ---
-title: "NBA Salaries: How Much is that Buzzer Beater Worth?" 
+title: 'NBA Salaries: How Much is that Buzzer Beater Worth?'
 author: "Eddie and Co."
 fontsize: 12pt
-geometry: margin=1in
+output:
+  html_document:
+    df_print: paged
 urlcolor: black
-output: pdf_document
+geometry: margin=1in
 header-includes:
 - \usepackage{setspace}
 - \onehalfspacing
@@ -31,6 +33,7 @@ library(car)
 library(reshape2)
 
 df <- read.csv("main.csv")
+df <- na.omit(df)
 head(df)
 
 #\includegraphics{/Users/kristavaranyak/Downloads/GOLDyulo.jpg}
