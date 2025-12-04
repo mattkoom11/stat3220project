@@ -3,6 +3,7 @@ title: 'NBA Salaries: How Much is that Buzzer Beater Worth?'
 author: "Eddie and Co."
 fontsize: 12pt
 output:
+  pdf_document: default
   html_document:
     df_print: paged
 urlcolor: black

@@ -16,6 +16,7 @@ library(car)
 library(caret)
 library(reshape2)
 library(olsrr)
+library(corrplot)
 ```
 
 ```{r}
@@ -36,6 +37,14 @@ df$log_salary <- log(df$avg_salary_millions + 1)
 initial_model <- lm(log_salary ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions + (PTS * FTA), data = df)
 summary(initial_model)
 ```
+
+# Corrplot
+```{r}
+model_vars <- df %>% select(log_salary, MP, PTS, FG_pct, FTA, TRB, AST, stocks, Value_Billions)
+cor_matrix <- cor(model_vars, use = "complete.obs")
+corrplot(cor_matrix, method = "circle", type = "full", tl.col = "black", tl.srt = 45)
+```
+
 # VIF Analysis
 ```{r}
 vif_values <- vif(initial_model)
