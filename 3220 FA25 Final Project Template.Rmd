@@ -3,6 +3,10 @@ title: 'NBA Salaries: How Much is that Buzzer Beater Worth?'
 author: "Eddie and Co."
 fontsize: 12pt
 output:
+<<<<<<< HEAD
+=======
+  pdf_document: default
+>>>>>>> ca762ffaead703782cade33de2b1c19db35c14b6
   html_document:
     df_print: paged
 urlcolor: black
@@ -33,6 +37,7 @@ library(car)
 library(reshape2)
 
 df <- read.csv("main.csv")
+df <- na.omit(df)
 head(df)
 
 #\includegraphics{/Users/kristavaranyak/Downloads/GOLDyulo.jpg}

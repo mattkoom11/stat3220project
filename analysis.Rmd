@@ -16,6 +16,7 @@ library(car)
 library(caret)
 library(reshape2)
 library(olsrr)
+library(corrplot)
 ```
 
 ```{r}
@@ -36,6 +37,14 @@ df$log_salary <- log(df$avg_salary_millions + 1)
 initial_model <- lm(log_salary ~ MP + PTS + FG_pct + FTA + TRB + AST + stocks + Value_Billions + (PTS * FTA), data = df)
 summary(initial_model)
 ```
+
+# Corrplot
+```{r}
+model_vars <- df %>% select(log_salary, MP, PTS, FG_pct, FTA, TRB, AST, stocks, Value_Billions)
+cor_matrix <- cor(model_vars, use = "complete.obs")
+corrplot(cor_matrix, method = "circle", type = "full", tl.col = "black", tl.srt = 45)
+```
+
 # VIF Analysis
 ```{r}
 vif_values <- vif(initial_model)
@@ -86,6 +95,9 @@ anova(reduced_pos, quant_and_qual)
 final <- lm(log_salary ~ PTS + MP + stocks + Age_22_26 + Age_27_31 + Age_32_34 + Age_35_plus, data = df)
 summary(final)
 ```
+
+$$\widehat{log\_salary} = 0.10079 + 0.08228PTS + 0.03258MP + 0.23531stocks + 0.08700Age_{22-26} + 0.39501Age_{27-31} + 0.43997Age_{32-34}$$
+
 
 # Confidence Intervals
 ```{r}
