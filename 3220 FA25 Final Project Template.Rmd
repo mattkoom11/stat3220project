@@ -72,7 +72,7 @@ These questions allow us to assess how performance and recognition jointly relat
 
 ## Data Summary
 ### Data Sources
-Our original dataset included all NBA players who appeared during the 2024–2025 season, combining salary, performance, demographic, and award information. However, to stabilize variance and reduce right skew in the response variable, we restricted the dataset to players averaging more than 20 minutes per game and applied a square-root transformation to salary (sqrt(Salary + 1)). The transformed distribution is noticeably more symmetric and appropriate for linear modeling. Player statistics and awards were sourced from Basketball Reference, while Statista provided team franchise values to add economic context. Player names were standardized and awards were simplified into a three-level categorical variable, and age was grouped into brackets.
+Our original dataset included all NBA players who appeared during the 2024–2025 season, combining salary, performance, demographic, and award information. However, to stabilize variance and reduce right skew in the response variable, we restricted the dataset to players averaging more than 20 minutes per game and applied a square-root transformation to salary (sqrt(Salary + 1)). The transformed distribution is noticeably more symmetric and appropriate for linear modeling. Player statistics and awards were sourced from Basketball Reference, while Statista provided team franchise values to add economic context. Player names were standardized, awards was simplified into a three-level categorical variable, and age was grouped into brackets.
 
 ### Exploratory Data Analysis
 
