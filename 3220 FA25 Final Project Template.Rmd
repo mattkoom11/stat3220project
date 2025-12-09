@@ -125,6 +125,10 @@ p6_salary_by_age <- ggplot(df, aes(x = Age, y = log_salary)) +
 Log-transformed salary shows a strong positive linear relationship with scoring: players above ~20 PPG consistently fall in the upper salary range on the log scale, while low-scoring players cluster near the lower end. Defensive performance, measured by stocks (steals + blocks), also has a positive association with salary, though the relationship is noticeably weaker and contains more variance, as shown by the scattered cloud in the plot.
 
 Awards and experience further separate players into clear salary tiers. The boxplots show that players with even one award earn substantially more on the log scale, and those with multiple awards form the highest and most compressed salary group. Age groups display a similar trend: older, more experienced players (particularly those in the 27–31 and 32–34 brackets) show higher median log salaries, reflecting the market value of veteran players. Younger players (Age_1) display a much wider spread, consistent with rookie deals and early-career variability.
+
+\textbf{Assessing Multicollinearity}
+
+We began our analysis by assessing multicollinearity among predictors. From our EDA correlation heatmap, we observed potential overlap between PTS and other offensive statistics such as FTA and MP. We quantified these relationships using pairwise correlations and VIFs. If VIFs fell below standard thresholds (individual < 10, average < 3), we proceeded; otherwise, we used variable screening and stepwise regression to identify a reduced subset of predictors. After selecting a more stable set of variables, we reassessed multicollinearity before model building.
 ```{r, echo=FALSE, warning=FALSE,results=FALSE}
 ## Use this code chunk can be used to execute any functions or summaries 
 ## that will not be included in your output such as correlations or 5 number summaries
@@ -137,10 +141,6 @@ Awards and experience further separate players into clear salary tiers. The boxp
 ## This code chunk can be used to execute any functions or summaries that will not be included in your output
 
 ```
-
-\textbf{Assessing Multicollinearity}
-
-We began our analysis by assessing multicollinearity among predictors. From our EDA correlation heatmap, we observed potential overlap between PTS and other offensive statistics such as FTA and MP. We quantified these relationships using pairwise correlations and VIFs. If VIFs fell below standard thresholds (individual < 10, average < 3), we proceeded; otherwise, we used variable screening and stepwise regression to identify a reduced subset of predictors. After selecting a more stable set of variables, we reassessed multicollinearity before model building.
 
 \textbf{Building the Model}
 
